@@ -1,4 +1,4 @@
-
+#%%
 import subprocess
 import time
 import copy
@@ -21,7 +21,7 @@ def get_top_layer(device):
     if "[...]" in b:
         c = b.split("[...]")
         d = subprocess.check_output("adb -s {device} shell dumpsys SurfaceFlinger --list".format(device=device))
-        e = d.decode().split("\r\n")
+        e = d.decode().replace(" ","").split("\r\n")
         for line in e:
             if c[0] in line and c[1] in line:
                 return line
@@ -29,6 +29,7 @@ def get_top_layer(device):
 
 def get_FPS(device,top_layer):
     # top_layer = get_top_layer(device).replace("(","\\(").replace(")","\\)")
+    print(top_layer)
     a = subprocess.check_output("adb -s {device} shell dumpsys SurfaceFlinger --latency {top} ".format(device=device,top=top_layer))
     b = a.decode().split("\r\n")
     if len(b) < 10:
@@ -81,7 +82,7 @@ def main():
             # otherStyleTime = time.strftime("%H:%M:%S", timeArray)
             old_FPS[device] = copy.deepcopy(FPS)
             device_FPS[device].append([str(now-start_time),str(FPS)])
-    
+#%%    
 if __name__ == "__main__":
     main()
    
@@ -92,7 +93,26 @@ if __name__ == "__main__":
 
 
 
+#%%
+a = subprocess.check_output('adb shell dumpsys SurfaceFlinger --list "| grep SurfaceView" ')    
 
 
 
 
+# %%
+d = subprocess.check_output("adb -d shell dumpsys SurfaceFlinger --list")
+
+e = d.decode().split("\r\n")
+
+
+for top_layer in e:
+    x = subprocess.check_output("adb shell dumpsys SurfaceFlinger --latency {top} ".format(top=top_layer.replace("(","\\(").replace(")","\\)")))
+
+    y = x.decode().split("\r\n")
+    if len(y) > 10:
+        print(y[-5])
+    print(top_layer)
+
+
+
+# %%
