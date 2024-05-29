@@ -2,13 +2,13 @@ from win32gui import *
 from PIL import ImageGrab
 import win32con
 import time
-import cv2 as cv
 import win32com.client
 import pyautogui
 import threading
 import sys
 import numpy
 import tkinter
+import cv2 as cv
 
 pyautogui.FAILSAFE = False
 
