@@ -1,4 +1,5 @@
 # -- coding: UTF-8 --
+#%%
 from win32gui import *
 from PIL import ImageGrab
 import win32con
@@ -51,14 +52,14 @@ def check_window_zx():
     names = set()
     EnumWindows(get_window_title,names)
     list_ = [name for name in names if name]
-    if '诛仙手游 官方桌面版' in names:
+    if '梦幻新诛仙 手游模拟器' in names:
         return True
     else: 
         return False
 
 #游戏置顶
 def zx_on_top():
-    name = '诛仙手游 官方桌面版'
+    name = '梦幻新诛仙 手游模拟器'
     window = FindWindow(0,name)
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')
@@ -68,7 +69,7 @@ def zx_on_top():
 
 #截取整个游戏截图
 def get_zx_screen(screen_name="template.png"):
-    name = '诛仙手游 官方桌面版'
+    name = '梦幻新诛仙 手游模拟器'
     window = FindWindow(0,name)
     # shell = win32com.client.Dispatch("WScript.Shell")
     # shell.SendKeys('%')
@@ -76,6 +77,7 @@ def get_zx_screen(screen_name="template.png"):
     # SetForegroundWindow(window)
     x_start, y_start, x_end, y_end = GetWindowRect(window)
     box = (x_start, y_start, x_end, y_end)
+    print(box)
     if abs(x_end-x_start-1920)>1 or abs(y_end-y_start-1080)>1:
         print("屏幕分辨率错误,请设置分辨率为1920x1080!")
         return box
@@ -87,6 +89,12 @@ def get_zx_screen(screen_name="template.png"):
     return box,image
 
 #查找目标icon，返回坐标，未找到返回False
+def get_screen_box(x_start, y_start, x_end, y_end,screen_name="box.png"):
+    box = (x_start, y_start, x_end, y_end)
+    image = pyautogui.screenshot(region=box)
+    image.save(screen_name)
+    return box,image
+
 def find_icon(icon,screencap,stand=0.99,position=5):
     '''
     screencap:屏幕截图路径
@@ -197,3 +205,4 @@ def make_ans(icon,screencap,ans_l):
 if __name__ == '__main__':
     zx_on_top()
     get_zx_screen()
+    get_screen_box(1800,30,80,70)

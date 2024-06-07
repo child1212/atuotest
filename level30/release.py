@@ -197,51 +197,12 @@ def make_ans(icon,screencap,ans_l):
 
 # 
 if __name__ == '__main__':
-    # x,y = get_zx_screen()
-    # ranse = cv.imread("test.png")
-    # ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
-    # pos = find_icon_quick(ranse_gray,y,0.55)
-    # mouse_click(x,pos)
-    run = 0  
-    step = 0
-    flow = ["ranse.png","chou.png"]           
-    ranse = cv.imread("ranse.png")
-    ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
-    while True:
-        run += 1
-        zx_on_top()
-        pyautogui.click(1560,180)
-        time.sleep(0.5)
-        x,y = get_zx_screen()
-        chat = random.choice([450,650,550])
-        pos = find_icon_quick(ranse_gray,y)
-        if pos[0]:
-            if step == 0:
-                pyautogui.click(1830,980)
-                time.sleep(1)
-                pyautogui.click(1530,215)
-                step += 1
-                ranse = cv.imread(flow[step])
-                ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
-            elif step ==1:
-                mouse_click(x,pos)
-            
-
-        else:
-            pyautogui.click(1500,820)
-            pyautogui.click(1599,970)
-            pyautogui.click(965,1040)
-            for i in range(10):
-                pyautogui.press("space")
-                pyautogui.click(1450,chat)
-        if run == 3:
-            pyautogui.click(1821,40)
-            pyautogui.press("esc")
-            pyautogui.press("esc")
-            run = 0
-        pyautogui.click(1750,820)
-        pyautogui.click(1860,800)
-        pyautogui.click(1801,950)
+    zx_on_top()
+    x,y = get_zx_screen()
+    main = cv.imread("test.png")
+    main_gray = cv.cvtColor(main,cv.COLOR_BGR2GRAY)
 
 
-
+    pos = find_icon_quick(main_gray,y,0.5)
+    print(pos)
+    mouse_click(x,pos)

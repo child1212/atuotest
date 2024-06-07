@@ -87,6 +87,11 @@ def get_zx_screen(screen_name="template.png"):
     # image.save(screen_name)
     print("截图:",x_end-x_start,"x",y_end-y_start)
     return box,image
+def get_screen_box(x_start, y_start, x_end, y_end,screen_name="box.png"):
+    box = (x_start, y_start, x_end, y_end)
+    image = pyautogui.screenshot(region=box)
+    image.save(screen_name)
+    return box,image
 
 #查找目标icon，返回坐标，未找到返回False
 def find_icon(icon,screencap,stand=0.99,position=5):
@@ -197,51 +202,45 @@ def make_ans(icon,screencap,ans_l):
 
 # 
 if __name__ == '__main__':
-    # x,y = get_zx_screen()
-    # ranse = cv.imread("test.png")
-    # ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
-    # pos = find_icon_quick(ranse_gray,y,0.55)
-    # mouse_click(x,pos)
-    run = 0  
-    step = 0
-    flow = ["ranse.png","chou.png"]           
-    ranse = cv.imread("ranse.png")
-    ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
+    zx_on_top()
+    get_zx_screen()
+    get_screen_box(1800,30,80,70)
+    run = 0
+    chat = 450
+    mission = cv.imread("box.png")
+    mission_gray = cv.cvtColor(mission,cv.COLOR_BGR2GRAY)
     while True:
-        run += 1
-        zx_on_top()
-        pyautogui.click(1560,180)
-        time.sleep(0.5)
         x,y = get_zx_screen()
-        chat = random.choice([450,650,550])
-        pos = find_icon_quick(ranse_gray,y)
+        pos = find_icon_quick(mission_gray,y)
         if pos[0]:
-            if step == 0:
-                pyautogui.click(1830,980)
-                time.sleep(1)
-                pyautogui.click(1530,215)
-                step += 1
-                ranse = cv.imread(flow[step])
-                ranse_gray = cv.cvtColor(ranse,cv.COLOR_BGR2GRAY)
-            elif step ==1:
-                mouse_click(x,pos)
-            
-
+            pyautogui.click(1550,180)
         else:
-            pyautogui.click(1500,820)
-            pyautogui.click(1599,970)
-            pyautogui.click(965,1040)
-            for i in range(10):
-                pyautogui.press("space")
-                pyautogui.click(1450,chat)
-        if run == 3:
-            pyautogui.click(1821,40)
-            pyautogui.press("esc")
-            pyautogui.press("esc")
-            run = 0
-        pyautogui.click(1750,820)
-        pyautogui.click(1860,800)
-        pyautogui.click(1801,950)
+            if run == 0:
+                if chat == 750:
+                    chat = 450
+                for i in range(10):
+                    pyautogui.press("space")
+                pyautogui.click(1500,820)
+                time.sleep(0.5)
+                pyautogui.click(965,1040)
+                time.sleep(0.5)
+                pyautogui.click(1500,970)
+                time.sleep(0.5)
+                pyautogui.click(1250,chat)
+                run += 1
+                chat += 100
+                # pyautogui.click(1800,63)
+            elif run == 1:
+                for i in range(10):
+                    pyautogui.click(968,982)      
+                    time.sleep(0.2)
+                pyautogui.click(1800,63)
+                run += 1
+            elif run == 2:
+                pyautogui.press("esc")
+                run = 0
+
+
 
 
 
