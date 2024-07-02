@@ -47,12 +47,13 @@ class DeviceAndroid():
     
 devices = adb.device_list()
 #可以手动填写
-MainDeviceId = input("主控设备id:")
+# MainDeviceId = input("主控设备id:")
+MainDeviceId = ""#input("主控设备id:")
 if MainDeviceId == "":
     MainDeviceId = devices[0].serial
 print("主控设备id：",MainDeviceId,"\n脚本初始化,请稍候")
 #-------------
-
+00.
 MainDevice = DeviceAndroid(MainDeviceId)
 temp = MainDevice.adb_d.shell("getevent -p")
 print(MainDevice.max_x,MainDevice.max_y)
