@@ -3,7 +3,7 @@
 from adbutils import adb
 import re
 import threading
-
+#  962 1758
 # adb = adbutils.AdbClient(host="127.0.0.1",port=5037)
 
 class DeviceAndroid():

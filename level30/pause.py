@@ -22,3 +22,5 @@ def pause_key(keypress, seconds):
     cv2.destroyAllWindows()
 if __name__ == "__main__":
     pause_key(keypress=" ",seconds=10)
+# %%
+ 
