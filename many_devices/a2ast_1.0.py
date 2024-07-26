@@ -29,7 +29,6 @@ class DeviceAndroid():
     
     def touch_relative_position(self,relative_x,relative_y,action=0):
         '''
-        
         action==1:down
         action==2:up
         '''
