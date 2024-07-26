@@ -12,6 +12,10 @@ for de in ds:
 print("检测到{t}台设备：".format(t=len(ds)))
 threadPool = ThreadPoolExecutor(max_workers=len(ds),thread_name_prefix="test_")
 
+def clear_input(device):
+    for i in range(15):
+        threading.Thread(target=device.shell,args=("input keyevent 67",)).start()
+
 while True:
     cmd = input("输入文本：")
     if cmd == "exit":
@@ -23,7 +27,7 @@ while True:
     elif cmd == "del":
         for d in ds:
             F = threadPool.submit(d.shell,"input keyevent KEYCODE_MOVE_END")
-            F = threadPool.submit(d.shell,"for i in {0,1,2,3,4,5,,6,7,8,9,10,11,12,13,14,15}\ndo\ninput keyevent 67\ndone")
+            F = threadPool.submit(clear_input,d)
     else:    
         for d in ds:
             F = threadPool.submit(d.send_keys,cmd)
