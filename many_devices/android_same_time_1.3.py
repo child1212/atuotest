@@ -1,5 +1,4 @@
 #%%
-
 from adbutils import adb
 import re
 import threading
@@ -146,8 +145,6 @@ while True:
         print("初始化完成，可以开始操作了！")
         t1 = threading.Thread(target=out_pos,args=(f,position,device_list,que))
         t1.start()
-        # t2 = threading.Thread(target=do_it,args=(devices_set,que))
-        # t2.start()
         do_it(devices_set,que)
 
 
@@ -161,85 +158,6 @@ while True:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# while True:
-#     device_list = adb.list()
-#     devices = adb.device_list()
-#     MainDeviceName = input("主控设备名:")
-#     if MainDeviceName == "":
-#         MainDeviceName = deviceName_d[devices[0].serial]
-#     print("主控设备名称：",MainDeviceName,"\n脚本初始化,请稍候")
-#     MainDevice = DeviceAndroid(deviceId_d[MainDeviceName])
-#     temp = MainDevice.adb_d.shell("getevent -p")
-#     print(MainDevice.max_x,MainDevice.max_y)
-#     devices_set = set()
-#     for dev in adb.device_list():
-#         if dev.serial != deviceId_d[MainDeviceName]:
-#             d = DeviceAndroid(dev.serial)
-#             print(deviceName_d[d.deviceId],d.adb_d.window_size())
-#             devices_set.add(d)
-#     print("检测到{n}台设备".format(n=len(devices_set)))
-#     stream = MainDevice.adb_d.shell("getevent -l | grep -E 'ABS_MT_POSITION|BTN_TOUCH'", stream=True)
-#     running = 0
-#     distance = 0.05
-#     threadPool = ThreadPoolExecutor(max_workers=len(devices_set),thread_name_prefix="test_")
-#     with stream:
-#         f = stream.conn.makefile()
-#         position = []
-#         posx_temp = 0
-#         print("初始化完成，可以开始操作了！")
-#         while True:
-#             if device_list != adb.list():
-#                 f.close()
-#                 break
-#             line = f.readline()
-#             info_serch = re.search(r'ABS_MT_POSITION_X +[0-9a-f]{8}|ABS_MT_POSITION_Y +[0-9a-f]{8}|BTN_TOUCH +UP',line)
-#             if info_serch != None:
-#                 search_result = re.split(r' +',info_serch.group(0))
-#                 if search_result[0] == "ABS_MT_POSITION_X":
-#                     temp_x = MainDevice.out_relative_position_x(search_result[1])
-#                     if len(position) < 2:
-#                         position.append([temp_x,0])
-#                     else:
-#                         position[1][0] = temp_x
-
-#                 elif search_result[0] == "ABS_MT_POSITION_Y":
-#                     temp_y = MainDevice.out_relative_position_y(search_result[1])
-#                     if len(position) == 0:
-#                         position.append([temp_x,temp_y])
-#                     else:
-#                         position[-1][1] = temp_y
-
-
-#                 elif search_result[0] == "BTN_TOUCH":
-#                     if search_result[1] == "UP":
-#                         if len(position) == 1:
-#                             # threading.Thread(target=do_tap,args=(devices_set,position,MainDevice.check_direction())).start()
-#                             que.put[(devices_set,position,MainDevice.check_direction())]
-#                         elif len(position) == 2:
-#                             if abs(position[0][0]-position[1][0])>distance or abs(position[0][1]-position[1][1])>distance:
-#                                 # threading.Thread(target=do_swipe,args=(devices_set,position,MainDevice.check_direction())).start()
-#                                 que.put[(devices_set,position,MainDevice.check_direction())]
-#                             else:
-#                                 # threading.Thread(target=do_tap,args=(devices_set,position,MainDevice.check_direction())).start()
-#                                 que.put[(devices_set,position,MainDevice.check_direction())]
-#                         position=[]
 
 
 
