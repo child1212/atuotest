@@ -3,8 +3,6 @@
 from adbutils import adb
 import re
 import threading
-#  962 1758
-# adb = adbutils.AdbClient(host="127.0.0.1",port=5037)
 
 class DeviceAndroid():
     def __init__(self,deviceId) -> None:
@@ -28,15 +26,25 @@ class DeviceAndroid():
 
     def tap(self,position_x,position_y,direction):
         if direction == "0":
-            print("input tap {x} {y}".format(x=position_x*self.size_x//100000,y=position_y*self.size_y//100000))        
-        else:
+            print("input tap {x} {y}".format(x=position_x*self.size_x//100000,y=position_y*self.size_y//100000))    
+            return "input tap {x} {y}".format(x=position_x*self.size_x//100000,y=position_y*self.size_y//100000)    
+        elif direction == "1":
             print("input tap {x} {y}".format(x=position_y*self.size_x//100000,y=self.size_y-position_x*self.size_y//100000))
-
+            return "input tap {x} {y}".format(x=position_y*self.size_x//100000,y=self.size_y-position_x*self.size_y//100000)
+        elif direction == "3":
+            print("input tap {x} {y}".format(x=self.size_x-position_y*self.size_x//100000,y=position_x*self.size_y//100000))
+            return "input tap {x} {y}".format(x=self.size_x-position_y*self.size_x//100000,y=position_x*self.size_y//100000)
+        
     def swipe(self,position_x,position_y,position_x1,position_y1,direction):
         if direction == "0":
             print("input swipe {a} {b} {c} {d} ".format(a=position_x*self.size_x//100000,b=position_y*self.size_y//100000,c=position_x1*self.size_x//100000,d=position_y1*self.size_y//100000))
-        else:
+            return "input swipe {a} {b} {c} {d} ".format(a=position_x*self.size_x//100000,b=position_y*self.size_y//100000,c=position_x1*self.size_x//100000,d=position_y1*self.size_y//100000)
+        elif direction == "1":
             print("input swipe {a} {b} {c} {d} ".format(a=position_y*self.size_x//100000,b=self.size_y-position_x*self.size_y//100000,c=position_y1*self.size_x//100000,d=self.size_y-position_x1*self.size_y//100000))
+            return "input swipe {a} {b} {c} {d} ".format(a=position_y*self.size_x//100000,b=self.size_y-position_x*self.size_y//100000,c=position_y1*self.size_x//100000,d=self.size_y-position_x1*self.size_y//100000)
+        elif direction == "3":
+            print("input swipe {a} {b} {c} {d} ".format(a=self.size_x-position_y*self.size_x//100000,b=position_x*self.size_y//100000,c=self.size_x-position_y1*self.size_x//100000,d=position_x1*self.size_y//100000))
+            return "input swipe {a} {b} {c} {d} ".format(a=self.size_x-position_y*self.size_x//100000,b=position_x*self.size_y//100000,c=self.size_x-position_y1*self.size_x//100000,d=position_x1*self.size_y//100000)
 
     def install(self,path):
         self.adb_d.install(path)
@@ -53,24 +61,17 @@ MainDevice = DeviceAndroid(MainDeviceId)
 temp = MainDevice.adb_d.shell("getevent -p")
 print(MainDevice.max_x,MainDevice.max_y)
 
-    
 stream = MainDevice.adb_d.shell("getevent -l", stream=True)
 running = 0
 with stream:
     f = stream.conn.makefile()
-    # while True: 
     position = []
     posx_temp = 0
     print("初始化完成，可以开始操作了！")
-    # for i in range(1000):# read 100 lines
     while True:
-
         line = f.readline()
-        # print(line)
-
         if running == 0:
             start_signal = re.search(r'ABS_MT_TRACKING_ID',line)
-            # start_signal = re.search(r'BTN_TOUCH +DOWN',line)
             if start_signal != None:
                 running = 1
                 position =[]
@@ -80,9 +81,9 @@ with stream:
                 direction = MainDevice.check_direction()
                 running = 0
                 if len(position)==1:
-                    MainDevice.tap(position[0][0],position[0][1],direction)
+                    res = MainDevice.tap(position[0][0],position[0][1],direction)
                 elif len(position) == 2:
-                    MainDevice.swipe(position[0][0],position[0][1],position[1][0],position[1][1],direction)
+                    res = MainDevice.swipe(position[0][0],position[0][1],position[1][0],position[1][1],direction)
             posx_16 = re.search(r'ABS_MT_POSITION_X +[0-9a-f]{8}',line)
             if posx_16!= None:
                 posx = int(re.split(r' +',posx_16.group(0))[1],16)
@@ -99,44 +100,4 @@ with stream:
                 else:
                     position[-1][1] = posy*100000//MainDevice.max_y
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            # resx = res.group(0)
-            # sc = re.split(r' +',resx)
-            # if sc[1] == "ffffffff":
-            #     running = 0
-            # else:
-            #     running = 1
-
-
-            # print(sc)
-            # print(resx)
-    f.close()
 

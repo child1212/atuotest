@@ -33,18 +33,24 @@ class DeviceAndroid():
         if direction==0:
             print("tap",positionx,positiony)
             self.adb_d.click(positionx,positiony)
-        else:
+        elif direction==1:
             print("tap",positiony,1-positionx)
             self.adb_d.click(positiony,1-positionx)
+        elif direction==3:
+            print("tap",1-positiony,positionx)
+            self.adb_d.click(1-positiony,positionx)
 
 
     def swipe(self,position_x,position_y,position_x1,position_y1,direction):
         if direction == 0:
             print("swipe",position_x,position_y,position_x1,position_y1,0.3)
             self.adb_d.swipe(position_x,position_y,position_x1,position_y1,0.3)
-        else:
+        elif direction == 1:
             print("swipe",position_y,1-position_x,position_y1,1-position_x1,0.3)
             self.adb_d.swipe(position_y,1-position_x,position_y1,1-position_x1,0.3)
+        elif direction == 3:
+            print("swipe",1-position_y,position_x,1-position_y1,position_x1,0.3)
+            self.adb_d.swipe(1-position_y,position_x,1-position_y1,position_x1,0.3)
 
 def do_tap(devices_set,position,direction):
     for shouji in devices_set:
@@ -74,7 +80,7 @@ while True:
             d = DeviceAndroid(dev.serial)
             print(d.deviceId,d.adb_d.window_size())
             devices_set.add(d)
-        
+    print("检测到{n}台设备".format(n=len(devices_set)))
     stream = MainDevice.adb_d.shell("getevent -l | grep -E 'ABS_MT_POSITION|BTN_TOUCH'", stream=True)
     running = 0
     distance = 0.05
