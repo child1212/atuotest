@@ -121,19 +121,22 @@ que = Queue(maxsize=0)
 while True:
     device_list = adb.list()
     devices = adb.device_list()
-    MainDeviceName = input("主控设备名:")
-    if MainDeviceName == "":
-        MainDeviceName = deviceName_d[devices[0].serial]
-    print("主控设备名称：",MainDeviceName,"\n脚本初始化,请稍候")
-    print(deviceId_d[MainDeviceName])
-    MainDevice = DeviceAndroid(deviceId_d[MainDeviceName])
+    #可以手动填写
+    MainDeviceId = input("主控设备id:")
+    if MainDeviceId == "":
+        MainDeviceId = devices[0].serial
+    print("主控设备id：",MainDeviceId,"\n脚本初始化,请稍候")
+    #-------------
+    MainDevice = DeviceAndroid(MainDeviceId)
+    temp = MainDevice.adb_d.shell("getevent -p")
     print(MainDevice.max_x,MainDevice.max_y)
     devices_set = set()
     for dev in adb.device_list():
-        if dev.serial != deviceId_d[MainDeviceName]:
+        if dev.serial != MainDeviceId:
             d = DeviceAndroid(dev.serial)
-            print(deviceName_d[d.deviceId],d.adb_d.window_size())
+            print(d.deviceId,d.adb_d.window_size())
             devices_set.add(d)
+
     print("检测到{n}台设备".format(n=len(devices_set)))
     stream = MainDevice.adb_d.shell("getevent -l | grep -E 'ABS_MT_POSITION|BTN_TOUCH'", stream=True)
     running = 0

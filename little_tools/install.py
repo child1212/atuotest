@@ -1,4 +1,3 @@
-#%%
 from adbutils import adb
 import threading
 

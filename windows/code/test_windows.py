@@ -1,5 +1,3 @@
-
-
 from win32gui import *
 from PIL import ImageGrab
 import win32con

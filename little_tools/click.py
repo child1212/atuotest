@@ -6,7 +6,7 @@ from time import sleep
 print(adb.device_list)
 a = adb.device(adb.device_list()[0].serial)
 #%%
-for i in range(150):
+for i in range(1500):
     a.shell("input tap 2309 1078")
     sleep(0.2)
     # a.shell("input tap 1793 828")
