@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% block title %}<title>测试设备管理</title>{% endblock %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body>
+    <div>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logouta'%}" onclick="return window.confirm('确认退出登录吗？')">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login'%}">Login</a></li>
+        {% endif %}
+    </div>
+    <div class="container-fluid">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+                font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Jhenghei", sans-serif;
+            }
+
+            .logo path {
+                pointer-events: none;
+                fill: none;
+                stroke-linecap: round;
+                stroke-width: 7;
+                stroke: rgb(255, 255, 255);
+            }
+
+            .wechat-group img {
+                max-width: 220px;
+                height: auto;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                border-bottom-left-radius: 8px;
+                margin-top: 0px;
+                margin-right: auto;
+                margin-bottom: 0px;
+                margin-left: auto;
+                width: 100%;
+            }
+
+            .welcome-img img {
+                width: 100%;
+            }
+
+            .bg-gradient-primary {
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+
+            .container.py-18.pt-md-14.pb-md-14:active {
+                border: -1px solid #000000;
+            }
+
+            .display-1.mb-4 {
+                color: rgb(255, 0, 0);
+            }
+        </style>
+        <div class="row">
+            <div class="col-sm-2">
+                {% block sidebar %}
+                <ul class="sidebar-nav">
+                    <li><a href="{% url 'index' %}">首页</a></li>
+                    <li><a href="{% url 'devices' %}">所有设备</a></li>
+                    <li><a href="{% url 'devices' %}cn">国内安卓</a></li>
+                    <li><a href="{% url 'devices' %}oversea">海外安卓</a></li>
+                    <li><a href="{% url 'devices' %}iOS">苹果设备</a></li>
+                </ul>
+                {% endblock %}
+            </div>
+            <div class="col-sm-10"> {% block content %}{% endblock %}
+                {% block pagination %}
+                {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                        <span class="page-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

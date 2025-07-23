@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>{{plt}}兼容设备列表</h1>
+{%if request.user.is_superuser and not plt%}
+<ul>
+  <li>
+    <font size="1"><a href="{{ genre.get_absolute_url }}/refresh/">手动刷新列表</a></font>
+  </li>
+</ul>
+{% endif %}
+<span>
+  <form method="get" action="{% url 'deviceSearch' %}">
+    <input type="search" name="q" placeholder="要搜索的内容" />
+    <input type="submit" value="全局搜索">
+  </form>
+</span>
+{% if device_list %}
+<table cellspacing=1 border="1px solid #ccc">
+  <tr>
+    <th scope="col" width="80">设备编号</th>
+    <th scope="col" width="70">设备品牌</th>
+    <th scope="col" width="100">当前版本</th>
+    <th scope="col" width="70">CPU品牌</th>
+    <th scope="col" width="100">CPU型号</th>
+    <th scope="col" width="60">RAM</th>
+    <th scope="col" width="80">ROM</th>
+    <th scope="col" width="100">GPU品牌</th>
+    <th scope="col" width="180">GPU型号</th>
+    <th scope="col" width="120">分辨率</th>
+    <th scope="col" width="80">借用状态</th>
+    <th scope="col" width="80">设备平台</th>
+  </tr>
+  {% for device in device_list %}
+  <tr>
+    <td><a href="{{ device.get_absolute_url }}">{{ device.deviceId }}</a></td>
+    <td>{{device.brand}}</td>
+    {% if device.OSVersion in only_ver_list and device.status == "可用" %}
+    <td><strong>
+        <font color="red">{{device.OSVersion}}</font>
+      </strong></td>
+    {% else %}
+    <td>{{device.OSVersion}}</td>
+    {% endif %}
+    <td>{{device.cpuBrand}}</td>
+    {% if device.cpuModel in only_cpu_list and device.status == "可用" %}
+    <td><strong>
+        <font color="red">{{device.cpuModel}}</font>
+      </strong></td>
+    {% else %}
+    <td>{{device.cpuModel}}</td>
+    {% endif %}
+    <td>{{device.RAM}}</td>
+    <td>{{device.ROM}}</td>
+    <td>{{device.gpuBrand}}</td>
+    {% if device.gpuModel in only_gpu_list and device.status == "可用" %}
+    <td><strong>
+        <font color="red">{{device.gpuModel}}</font>
+      </strong></td>
+    {% else %}
+    <td>{{device.gpuModel}}</td>
+    {% endif %}
+    {% if device.resolution in only_resolution_list and device.status == "可用" %}
+    <td><strong>
+        <font color="red">{{device.resolution|linebreaksbr}}</font>
+      </strong></td>
+    {% else %}
+    <td>{{device.resolution|linebreaksbr}}</td>
+    {% endif %}
+
+    {% if device.onlyOne%}
+    <td><strong><font color="red">唯一设备</font></strong></td>
+    {% else %}
+    <td>{{device.get_status_display}}</td>
+    {% endif %}
+
+    <td><a href="{{ device.genre.get_absolute_url }}">{{ device.genre.name }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>There are no devices in the library.</p>
+{% endif %}
+{% endblock %}

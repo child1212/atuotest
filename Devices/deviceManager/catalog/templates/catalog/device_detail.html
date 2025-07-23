@@ -1,0 +1,154 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>设备编号: {{ device.deviceId }}</h1>
+<!-- 展示设备信息 -->
+<table width="1200">
+    <tr>
+        <td><strong>设备分类:</strong></td>
+        <td><a href="{{ device.genre.get_absolute_url }}">{{ device.genre }}</a></td>
+        <td><strong>设备品牌:</strong></td>
+        <td>{{ device.brand }}</td>
+        <td><strong>设备名称:</strong></td>
+        <td>{{ device.name }}</td>
+    </tr>
+    <tr>
+        <td><strong>设备型号:</strong></td>
+        <td>{{ device.deviceModel }}</td>
+        {%if device.OSVersion in only_ver_list and device.status == "可用"%}
+        <td><strong><font color="red">当前版本:</font></strong></td>
+        <td><font color="red">{{ device.OSVersion }}</font></td>
+        {%else%}
+        <td><strong>当前版本:</strong></td>
+        <td>{{ device.OSVersion }}</td>
+        {%endif%}
+        <td><strong>cpu品牌:</strong></td>
+        <td>{{ device.cpuBrand }}</td>
+    </tr>
+    <tr>
+        {%if device.cpuModel in only_cpu_list and device.status == "可用"%}
+        <td><strong><font color="red">cpu型号:</font></strong></td>
+        <td><font color="red">{{ device.cpuModel }}</font></td>
+        {%else%}
+        <td><strong>cpu型号:</strong></td>
+        <td>{{ device.cpuModel}}</td>
+        {%endif%}
+        <td><strong>cpu频率:</strong></td>
+        <td>{{ device.cpuFrequency}}</td>
+        <td><strong>cpu核心数:</strong></td>
+        <td>{{ device.cpuCoreNum }}</td>
+    </tr>
+    <tr>
+        <td><strong>RAM:</strong></td>
+        <td>{{ device.RAM }}</td>
+        <td><strong>GPU品牌:</strong></td>
+        <td>{{ device.gpuBrand }}</td>
+        {%if device.gpuModel in only_gpu_list and device.status == "可用"%}
+        <td><strong><font color="red">GPU型号:</font></strong></td>
+        <td><font color="red">{{ device.gpuModel }}</font></td>
+        {%else%}
+        <td><strong>GPU型号:</strong></td>
+        <td>{{ device.gpuModel }}</td>
+        {%endif%}
+    </tr>
+    <tr>
+        {%if device.resolution in only_resolution_list and device.status == "可用"%}
+        <td><strong><font color="red">分辨率:</font></strong></td>
+        <td><font color="red">{{ device.resolution|linebreaksbr }}</font></td>
+        {%else%}
+        <td><strong>分辨率:</strong></td>
+        <td>{{ device.resolution|linebreaksbr }}</td>
+        {%endif%}
+        <td><strong>屏幕类型:</strong></td>
+        <td>{{ device.screenType }}</td>
+        <td><strong>尺寸:</strong></td>
+        <td>{{ device.size }}</td>
+    </tr>
+    <tr>
+        <td><strong>wanmeioffice开通状态:</strong></td>
+        <td>{{ device.wanmeiOffice }}</td>
+        <td><strong>MAC地址:</strong></td>
+        <td>{{ device.MACAddr }}</td>
+        <td><strong>资产编号:</strong></td>
+        <td>{{ device.assetNumber }}</td>
+    </tr>
+    <tr>
+        <td><strong>设备状态:</strong></td>
+        <td>{{ device.get_status_display }}</td>
+        <td><strong>借用人:</strong></td>
+        <td>{{ device.borrower }}</td>
+        <td><strong>预计归还:</strong></td>
+        <td>{{ device.dueBackTime }}</td>
+    </tr>
+</table>
+<!-- 借用设备逻辑展示 -->
+<div>
+    <p><br></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <!-- 检验是否登录 -->
+    {% if request.user.username%}
+        <!-- 可用设备展示借用按钮 -->
+        {% if device.status == "可用"%}
+            <!-- 唯一设备做特殊展示 -->
+            {% if device.onlyOne%}
+                <form action="{% url 'borrow' %}" method="post">
+                    {% csrf_token %}
+                    <p>借 用 人 : <input type="text" name="borrower" required="required"></p>
+                    <!-- <p>借用日期<input type="date" name="dat" placeholder="借用日期"></p> -->
+                    <p>预计归还: <input type="date" name="backdate" required="required"></p>
+                    <input type="hidden" name="act" value="借用">
+                    <input type="hidden" name="status" value="借出">
+                    <input type="hidden" name="deviceid" value="{{ device.deviceId }}">
+                    <input type="submit" value="借用唯一设备" class="btn btn-lg btn-primary" onclick="return window.confirm('确认借出吗？')">
+                </form>
+                <!-- 展示设备的特殊性 -->
+                    {% if device.OSVersion in only_ver_list%}
+                        <p>此设备的 <strong><font color=red>系统版本</font> 唯一</strong></p>
+                    {%endif%}
+                    {% if device.cpuModel in only_cpu_list%}
+                        <p>此设备的 <strong><font color=red>CPU型号</font> 唯一</strong></p>
+                    {%endif%}
+                    {% if device.gpuModel in only_gpu_list%}
+                        <p>此设备的 <strong><font color=red>GPU型号</font> 唯一</strong></p>
+                    {%endif%}
+                    {% if device.resolution in only_resolution_list%}
+                        <p>此设备的 <strong><font color=red>分辨率</font> 唯一</strong></p>
+                    {%endif%}
+            {% else %}
+                <form action="{% url 'borrow' %}" method="post">
+                    {% csrf_token %}
+                    <p>借 用 人 : <input type="text" name="borrower" required="required"></p>
+                    <!-- <p>借用日期<input type="date" name="dat" placeholder="借用日期"></p> -->
+                    <p>预计归还: <input type="date" name="backdate" required="required"></p>
+                    <input type="hidden" name="act" value="借用">
+                    <input type="hidden" name="status" value="借出">
+                    <input type="hidden" name="deviceid" value="{{ device.deviceId }}">
+                    <input type="submit" value="借用" class="btn btn-lg btn-primary" onclick="return window.confirm('确认借出吗？')">
+                </form>
+            {%endif%}
+        <!-- 借出设备展示归还按钮 -->
+        {% elif device.status == "借出"%}
+            <form action="{% url 'borrow' %}" method="post">
+                {% csrf_token %}
+                <p>归 还 人 : <input type="text" name="borrower" required="required"><a>借用人：{{device.borrower}}</a></p>
+                <!-- <p>借用日期<input type="date" name="dat" placeholder="借用日期"></p> -->
+                <input type="hidden" name="act" value="归还">
+                <input type="hidden" name="status" value="可用">
+                <input type="hidden" name="deviceid" value="{{ device.deviceId }}">
+                <input type="submit" value="归还" class="btn btn-lg btn-primary" onclick="return window.confirm('请确认手机已归还！')">
+            </form>
+        <!-- 不可用设备展示不可用按钮 -->
+        {% else %}
+            <span><a href="" class="btn btn-lg btn-primary" disabled>不可用</a></span>
+        {%endif%}
+        <p><a href="{{ device.get_absolute_url }}/lendhistory/">借用记录</a></p>
+    <!-- 未登录玩家展示登录提示 -->
+    {% else %}
+        <p><strong><a href="{% url 'login'%}">登录</a></strong>后可查看借用信息</p>
+    {%endif%}
+
+</div>
+
+{% endblock %}
