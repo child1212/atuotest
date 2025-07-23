@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cdjango_filters',
+    'django_filters',
     'catalog.apps.CatalogConfig',
 ]
 
