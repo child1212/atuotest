@@ -7,11 +7,12 @@ p = input("apkpath:\n")
 if p == "test":
     for d in ds:
         r = adb.device(d.serial)
-        threading.Thread(target=r.shell,args=("input swipe 300 0 300 300",)).start()
+        threading.Thread(target=r.shell,args=("input swipe 300 0 300 600",)).start()
 else:
     for d in ds:
         r = adb.device(d.serial)
         threading.Thread(target=r.install,args=(p,)).start()
+
 
 
 
