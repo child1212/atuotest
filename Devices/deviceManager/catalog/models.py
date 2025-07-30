@@ -34,30 +34,31 @@ class Genre(models.Model):
 class Device(models.Model):
     '''
     Devices id
+    
     '''
     deviceId = models.CharField(max_length=99,help_text="设备编号",primary_key=True)
 
-    brand = models.CharField(max_length=99,help_text="设备品牌")
+    brand = models.CharField(max_length=99,help_text="设备品牌",null=True,blank=True)
 
-    name = models.CharField(max_length=99,help_text="设备名称")
+    name = models.CharField(max_length=99,help_text="设备名称",null=True,blank=True)
 
-    deviceModel = models.CharField(max_length=99,help_text="设备型号")
+    deviceModel = models.CharField(max_length=99,help_text="设备型号",null=True,blank=True)
 
-    OSVersion = models.CharField(max_length=99,help_text="当前版本")
+    OSVersion = models.CharField(max_length=99,help_text="当前版本",null=True,blank=True)
 
-    cpuBrand = models.CharField(max_length=99,help_text="cpu品牌")
+    cpuBrand = models.CharField(max_length=99,help_text="cpu品牌",null=True,blank=True)
 
-    cpuModel = models.CharField(max_length=99,help_text="cpu型号")
+    cpuModel = models.CharField(max_length=99,help_text="cpu型号",null=True,blank=True)
 
-    cpuFrequency = models.CharField(max_length=99,help_text="cpu频率")
+    cpuFrequency = models.CharField(max_length=99,help_text="cpu频率",null=True,blank=True)
 
-    cpuCoreNum = models.CharField(max_length=99,help_text="cpu核心数")
+    cpuCoreNum = models.CharField(max_length=99,help_text="cpu核心数",null=True,blank=True)
 
     RAM = models.CharField(max_length=99,help_text="RAM")
 
-    gpuBrand = models.CharField(max_length=99,help_text="GPU品牌")
+    gpuBrand = models.CharField(max_length=99,help_text="GPU品牌",null=True,blank=True)
 
-    gpuModel = models.CharField(max_length=99,help_text="GPU型号")
+    gpuModel = models.CharField(max_length=99,help_text="GPU型号",null=True,blank=True)
 
     resolution = models.CharField(max_length=99,help_text="分辨率")
 
@@ -67,13 +68,17 @@ class Device(models.Model):
     
     ROM = models.CharField(max_length=99,help_text="ROM")
 
-    wanmeiOffice = models.CharField(max_length=99,help_text="wanmei-office开通状态")
+    wanmeiOffice = models.CharField(max_length=99,help_text="wanmei-office开通状态",null=True,blank=True)
 
-    MACAddr = models.CharField(max_length=99,help_text="MAC地址")
+    MACAddr = models.CharField(max_length=99,help_text="MAC地址",null=True,blank=True)
 
-    assetNumber = models.CharField(max_length=99,help_text="资产编号")
+    assetNumber = models.CharField(max_length=99,help_text="资产编号",null=True,blank=True)
 
-    onlyOne = models.BooleanField(default=False,help_text="唯一设备？")
+    onlyOne_cn = models.BooleanField(default=False,help_text="国内唯一设备？")
+
+    onlyOne_oversea = models.BooleanField(default=False,help_text="海外唯一设备？")
+
+    onlyOne_iOS = models.BooleanField(default=False,help_text="iOS唯一设备？")
 
     LOAN_STATUS = (
         ('不可用', '不可用'),
@@ -87,7 +92,7 @@ class Device(models.Model):
 
     dueBackTime = models.DateField(null=True, blank=True,help_text="预计归还")
 
-    genre = models.ForeignKey('Genre',help_text="设备分类",on_delete=models.SET_NULL,null=True)
+    genre = models.ManyToManyField('Genre',help_text="设备分类")
 
     # instance = models.ManyToManyField("DeviceInstance",help_text='借用记录')
     class Meta:

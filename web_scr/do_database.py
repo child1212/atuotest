@@ -29,30 +29,52 @@ data = pd.read_excel('D:\\gitcode\\dev\\atuotest\\web_scr\\data.xlsx').values
 
 #写入数据
 
+# cur = conn.cursor()
+# for i in range(1,len(data)):
+#     if pd.isnull(data[i][0]):
+#         # print("a")
+#         continue
+#     line = "("+'\"'+data[i][0]+'\"'
+#     for j in [1,2,3,4,6,7,8,9,10,35,36,11,12,13,15,17,18,19]:
+#         if pd.isnull(data[i][j]):
+#             line += ","
+#             line += "\"\""
+#         else:
+#             line += ","
+#             line += ('\"'+str(data[i][j])+'\"').replace("\n","\\n")
+#     line += ",\"可用\",0,0,0)"
+#     print(line)
+#     sql = "replace into catalog_device(deviceId,brand,name,deviceModel,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne_cn,onlyOne_oversea,onlyOne_iOS) VALUES{line};".format(line=line)
+#     # sql = "replace into catalog_device(deviceId,brand,name,deviceModel,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne,onlyOne_oversea,genre_id) VALUES{line};".format(line=line)
+
+#     # print(line)
+#     cur.execute(sql)
+#     conn.commit()
+# conn.close()
+
+
 cur = conn.cursor()
 for i in range(1,len(data)):
     if pd.isnull(data[i][0]):
         # print("a")
         continue
     line = "("+'\"'+data[i][0]+'\"'
-    for j in [1,2,3,4,6,7,8,9,10,35,36,11,12,13,15,17,18,19]:
+    for j in [1,2,3,5,6,7,8,9,23,24,10,11,12,14,16,18,19]:
         if pd.isnull(data[i][j]):
             line += ","
             line += "\"\""
         else:
             line += ","
             line += ('\"'+str(data[i][j])+'\"').replace("\n","\\n")
-    line += ",\"可用\",1,\"2\")"
+    line += ",\"可用\",0,0,0)"
     print(line)
-    # sql = "replace into catalog_device(deviceId,brand,name,deviceModel,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne) VALUES{line};".format(line=line)
-    sql = "replace into catalog_device(deviceId,brand,name,deviceModel,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne,genre_id) VALUES{line};".format(line=line)
+    sql = "replace into catalog_device(deviceId,brand,name,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne_cn,onlyOne_oversea,onlyOne_iOS) VALUES{line};".format(line=line)
+    # sql = "replace into catalog_device(deviceId,brand,name,deviceModel,OSVersion,cpuBrand,cpuModel,cpuFrequency,cpuCoreNum,RAM,gpuBrand,gpuModel,resolution,screenType,size,ROM,wanmeiOffice,MACAddr,assetNumber,status,onlyOne,onlyOne_oversea,genre_id) VALUES{line};".format(line=line)
 
     # print(line)
     cur.execute(sql)
     conn.commit()
 conn.close()
-
-
 
     
 

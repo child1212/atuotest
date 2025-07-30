@@ -6992,7 +6992,7 @@ fieldset:disabled .btn {
     --bs-pagination-disabled-border-color: rgba(164, 174, 198, 0.2);
     display: flex;
     padding-left: 0;
-    list-style: none
+    list-style: none;
 }
 
 .page-link {
@@ -10088,18 +10088,6 @@ fieldset:disabled .btn {
 
 .d-grid {
     display: grid !important
-}
-
-.d-table {
-    display: table !important
-}
-
-.d-table-row {
-    display: table-row !important
-}
-
-.d-table-cell {
-    display: table-cell !important
 }
 
 .d-flex {
@@ -13885,18 +13873,6 @@ fieldset:disabled .btn {
         display: grid !important
     }
 
-    .d-sm-table {
-        display: table !important
-    }
-
-    .d-sm-table-row {
-        display: table-row !important
-    }
-
-    .d-sm-table-cell {
-        display: table-cell !important
-    }
-
     .d-sm-flex {
         display: flex !important
     }
@@ -16567,17 +16543,6 @@ fieldset:disabled .btn {
         display: grid !important
     }
 
-    .d-md-table {
-        display: table !important
-    }
-
-    .d-md-table-row {
-        display: table-row !important
-    }
-
-    .d-md-table-cell {
-        display: table-cell !important
-    }
 
     .d-md-flex {
         display: flex !important
@@ -19247,18 +19212,6 @@ fieldset:disabled .btn {
 
     .d-lg-grid {
         display: grid !important
-    }
-
-    .d-lg-table {
-        display: table !important
-    }
-
-    .d-lg-table-row {
-        display: table-row !important
-    }
-
-    .d-lg-table-cell {
-        display: table-cell !important
     }
 
     .d-lg-flex {
@@ -50085,4 +50038,58 @@ footer.bg-dark.angled.upper-start:before {
     color: #fff
 }
 
+#table-1 thead, #table-1 tr{
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgb(230,189,189);
+}
+#table-1 select{
+    width: 80px;
+}
+#table-1{
+    margin-right: auto;
+    margin-left: auto;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(230,189,189);
+}
+#table-1{
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: rgb(230,189,189);
+}
+#table-1{
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: rgb(230,189,189);
+}
+
+#table-1 td, #table-1 th{
+    padding: 20px 16px;
+    font-size: 12px;
+    font-family: Verdana;
+    color:#101010;
+}
+#tabel-1 tr:nth-child(even){
+    background: rgb(238, 211,210);
+}
+#table-1 tr:nth-child(odd){
+    background: #FFF;
+}
+
+#dis-center{
+    text-align: center;
+    list-style-type:none;
+}
+
+#link-center{
+    display: grid; 
+    place-items: center; 
+    height: 30px;
+}
+
+#left-distance{
+    position: relative;
+    left: 200px;
+}
 /*# sourceMappingURL=style.css.map */

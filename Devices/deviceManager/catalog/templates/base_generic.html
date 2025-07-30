@@ -27,15 +27,6 @@
             * {
                 box-sizing: border-box;
             }
-
-            body {
-                margin: 0;
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-
             body {
                 margin-top: 0px;
                 margin-right: 0px;
@@ -43,7 +34,6 @@
                 margin-left: 0px;
                 font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", "Microsoft Jhenghei", sans-serif;
             }
-
             .logo path {
                 pointer-events: none;
                 fill: none;
@@ -51,7 +41,6 @@
                 stroke-width: 7;
                 stroke: rgb(255, 255, 255);
             }
-
             .wechat-group img {
                 max-width: 220px;
                 height: auto;
@@ -65,28 +54,24 @@
                 margin-left: auto;
                 width: 100%;
             }
-
             .welcome-img img {
                 width: 100%;
             }
-
             .bg-gradient-primary {
                 border-top-left-radius: 8px;
                 border-top-right-radius: 8px;
                 border-bottom-right-radius: 8px;
                 border-bottom-left-radius: 8px;
             }
-
             .container.py-18.pt-md-14.pb-md-14:active {
                 border: -1px solid #000000;
             }
-
             .display-1.mb-4 {
                 color: rgb(255, 0, 0);
             }
         </style>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-auto">
                 {% block sidebar %}
                 <ul class="sidebar-nav">
                     <li><a href="{% url 'index' %}">首页</a></li>
@@ -94,22 +79,26 @@
                     <li><a href="{% url 'devices' %}cn">国内安卓</a></li>
                     <li><a href="{% url 'devices' %}oversea">海外安卓</a></li>
                     <li><a href="{% url 'devices' %}iOS">苹果设备</a></li>
+                    <li><a href="{% url 'devices-filter' %}">筛选设备</a></li>
+                    {%if request.user.is_superuser%}
+                    <li><a href="{% url 'dueback' %}">应还设备</a></li>
+                    {% endif %}
                 </ul>
                 {% endblock %}
             </div>
             <div class="col-sm-10"> {% block content %}{% endblock %}
                 {% block pagination %}
                 {% if is_paginated %}
-                <div class="pagination">
+                <div id="dis-center">
                     <span class="page-links">
                         {% if page_obj.has_previous %}
-                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                        <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">上一页</a>
                         {% endif %}
                         <span class="page-current">
-                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                             {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
                         </span>
                         {% if page_obj.has_next %}
-                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">下一页</a>
                         {% endif %}
                     </span>
                 </div>

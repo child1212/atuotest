@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_filters',
+    'import_export',
     'catalog.apps.CatalogConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+REST_FRAMEWORK = {
+   # 过滤器默认后端
+    'DEFAULT_FILTER_BACKENDS': (
+           'django_filters.rest_framework.DjangoFilterBackend',),
+}

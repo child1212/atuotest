@@ -1,18 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>设备平台: {{ genre.name }}</h1>
-<p>介绍: {{ genre.test }}</p>
+<div id="dis-center">
+  <h1>{{ genre.name }}</h1>
+  {%if request.user.is_superuser%}
+  <a href="{{ genre.get_absolute_url }}/refresh/">手动刷新列表</a></br>
+  {% endif %}
+  <a href="{% url 'index' %}">首页
 
-{%if request.user.is_superuser%}
-<ul>
-  <li>
-    <font size="1"><a href="{{ genre.get_absolute_url }}/refresh/">手动刷新列表</a></font>
-  </li>
-</ul>
-{% endif %}
-<a href="{% url 'index' %}">首页
-
-
+</div>
 
 {% endblock %}
