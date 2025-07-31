@@ -50041,7 +50041,14 @@ footer.bg-dark.angled.upper-start:before {
 #table-1 thead, #table-1 tr{
     border-top-width: 1px;
     border-top-style: solid;
-    border-top-color: rgb(230,189,189);
+    border-top-color: #0093e9;
+}
+
+#table-1 thead th{
+    background-color: rgb(158, 203, 247);
+    font-size: 13px;
+    font-family: Verdana;
+
 }
 #table-1 select{
     width: 80px;
@@ -50051,17 +50058,17 @@ footer.bg-dark.angled.upper-start:before {
     margin-left: auto;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: rgb(230,189,189);
+    border-bottom-color: #0093e9;
 }
 #table-1{
     border-left-width: 1px;
     border-left-style: solid;
-    border-left-color: rgb(230,189,189);
+    border-left-color: #0093e9;
 }
 #table-1{
     border-right-width: 1px;
     border-right-style: solid;
-    border-right-color: rgb(230,189,189);
+    border-right-color: #0093e9;
 }
 
 #table-1 td, #table-1 th{
@@ -50070,12 +50077,9 @@ footer.bg-dark.angled.upper-start:before {
     font-family: Verdana;
     color:#101010;
 }
-#tabel-1 tr:nth-child(even){
-    background: rgb(238, 211,210);
-}
-#table-1 tr:nth-child(odd){
-    background: #FFF;
-}
+/* #table-1 tbody tr:nth-child(odd){
+    background-color:rgb(217, 245, 250);
+} */
 
 #dis-center{
     text-align: center;
@@ -50091,5 +50095,11 @@ footer.bg-dark.angled.upper-start:before {
 #left-distance{
     position: relative;
     left: 200px;
+}
+#search-center{
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 5vh; /* 视口高度 */
 }
 /*# sourceMappingURL=style.css.map */
