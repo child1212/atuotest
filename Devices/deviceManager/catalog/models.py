@@ -124,7 +124,7 @@ class LendHistory(models.Model):
     action = models.CharField(max_length=10,choices=ACT,help_text="操作类型")
     actTime = models.DateTimeField(null=True, blank=True,help_text="操作时间")
     device = models.ForeignKey("Device",help_text="设备id",on_delete=models.SET_NULL,null=True)
-    actor = models.CharField(max_length=10,choices=ACT,help_text="操作员")
+    actor = models.CharField(max_length=10,help_text="操作员")
 
     @classmethod
     def create(cls,borrower,action,actTime,device,actor,id=uuid.uuid1()):

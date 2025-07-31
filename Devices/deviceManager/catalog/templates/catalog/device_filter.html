@@ -4,7 +4,7 @@
 <div id="dis-center">
     <h1>筛选目标设备</h1>
     {%if request.user.is_superuser and not plt%}
-    <font size="1"><a href="{{ genre.get_absolute_url }}/refresh/">手动刷新列表</a></font>
+    <font size="1"><a href="{% url 'genre-refresh' %}">手动刷新列表</a></font>
     {% endif %}
     <span>
         <form method="get" action="{% url 'deviceSearch' %}">
@@ -89,6 +89,18 @@
                 </br>
             </td>
             <td>
+                <label>设备平台: </label>
+                <select name="genre">
+                    <option value="all">所有</option>
+                    {% for i in genres %}
+                    {% if i is not None%}
+                    <option value='{{i}}'>{{i}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                </br>
+            </td>
+
         </tr>
         <tr>
             <td>

@@ -26,8 +26,11 @@ class LendHistoryInline(admin.TabularInline):
 @admin.register(Device)
 class DeviceAdmin(ImportExportModelAdmin):
     resource_class = DeviceResource
-    list_display = ('deviceId','brand','OSVersion','RAM','ROM','status',"onlyOne_cn","onlyOne_oversea",'onlyOne_iOS')
-    list_filter=('OSVersion','genre',"cpuModel")
+    def genre_list(self,obj):
+        return [genre.name for genre in obj.genre.all()]
+    list_display = ('deviceId','brand','OSVersion','RAM','ROM','status',"genre_list")
+    filter_horizontal=("genre",)
+    list_filter=('genre',"brand",'OSVersion',"status")
     fields = [('deviceId','brand','name'),
               ('deviceModel','OSVersion'),
               ('cpuBrand',"cpuModel",'cpuFrequency','cpuCoreNum'),
@@ -37,7 +40,7 @@ class DeviceAdmin(ImportExportModelAdmin):
               ('gpuBrand','gpuModel'),
               ('status','borrower'),
               'genre']
-    inlines = [LendHistoryInline]
+    # inlines = [LendHistoryInline]
 
 @admin.register(LendHistory)
 class LendHistoryAdmin(admin.ModelAdmin):

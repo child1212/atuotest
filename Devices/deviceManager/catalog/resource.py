@@ -22,7 +22,6 @@ class DeviceResource(resources.ModelResource):
     wanmeiOffice= Field(attribute="wanmeiOffice",column_name="wanmei-office开通状态")
     MACAddr= Field(attribute="MACAddr",column_name="MAC地址")
     assetNumber= Field(attribute="assetNumber",column_name="资产编号")
-    onlyOne= Field(attribute="onlyOne",column_name="唯一设备？")
     status= Field(attribute="status",column_name="设备状态")
     borrower= Field(attribute="borrower",column_name="借用人")
     dueBackTime= Field(attribute="dueBackTime",column_name="预计归还")

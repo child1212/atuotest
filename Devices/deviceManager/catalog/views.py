@@ -20,7 +20,7 @@ def index(request):
     num_devices=Device.objects.all().count()
     # num_instances=BookInstance.objects.all().count()
     # Available books (status = 'a')
-    num_instances_available=Device.objects.filter(status__exact='a').count()
+    num_instances_available=Device.objects.filter(status='可用').count()
     num_genre=Genre.objects.count()  # The 'all()' is implied by default.
 
     # Render the HTML template index.html with the data in the context variable
@@ -147,6 +147,7 @@ def devices_filter(request):
     cpuBrand = set()
     cpuModel = set()
     cpuCoreNum = set()
+    genres = set()
     RAM = set()
     gpuBrand = set()
     gpuModel = set()
@@ -169,6 +170,36 @@ def devices_filter(request):
         ROM.add(device.ROM)
         status.add(device.status)
         borrower.add(device.borrower)
+        for genre in device.genre.all():
+            genres.add(genre)
+    brand = list(brand)
+    deviceModel = list(deviceModel)
+    OSVersion = list(OSVersion)
+    cpuBrand = list(cpuBrand)
+    cpuModel = list(cpuModel)
+    cpuCoreNum = list(cpuCoreNum)
+    genres = list(genres)
+    RAM = list(RAM)
+    gpuBrand = list(gpuBrand)
+    gpuModel = list(gpuModel)
+    resolution = list(resolution)
+    ROM = list(ROM)
+    status = list(status)
+    borrower = list(borrower)
+    brand.sort(key=lambda x: str('0') if x is None else x)
+    deviceModel.sort(key=lambda x: str('0') if x is None else x)
+    OSVersion.sort(key=lambda x: str('0') if x is None else x)
+    cpuBrand.sort(key=lambda x: str('0') if x is None else x)
+    cpuModel.sort(key=lambda x: str('0') if x is None else x)
+    cpuCoreNum.sort(key=lambda x: str('0') if x is None else x)
+    genres.sort(key=lambda x: str('0') if x is None else x)
+    RAM.sort(key=lambda x: str('0') if x is None else x)
+    gpuBrand.sort(key=lambda x: str('0') if x is None else x)
+    gpuModel.sort(key=lambda x: str('0') if x is None else x)
+    resolution.sort(key=lambda x: str('0') if x is None else x)
+    ROM.sort(key=lambda x: str('0') if x is None else x)
+    status.sort(key=lambda x: str('0') if x is None else x)
+    borrower.sort(key=lambda x: str('0') if x is None else x)
     return render(request,"catalog/device_filter.html",{
     "brand":brand,
     "deviceModel":deviceModel,
@@ -182,7 +213,8 @@ def devices_filter(request):
     "resolution":resolution,
     "ROM":ROM,
     "status":status,
-    "borrower":borrower
+    "borrower":borrower,
+    "genres":genres
           })
 
 def filter_result(request):
@@ -192,6 +224,7 @@ def filter_result(request):
     cpuBrand = request.GET.get("cpuBrand")
     cpuModel = request.GET.get("cpuModel")
     cpuCoreNum = request.GET.get("cpuCoreNum")
+    genre = request.GET.get("genre")
     RAM = request.GET.get("RAM")
     gpuBrand = request.GET.get("gpuBrand")
     gpuModel = request.GET.get("gpuModel")
@@ -208,6 +241,8 @@ def filter_result(request):
         kwargs["OSVersion"] = OSVersion
     if cpuBrand != "all":
         kwargs["cpuBrand"] = cpuBrand
+    if genre != "all":
+        kwargs["genre__name__icontains"] = genre
     if cpuModel != "all":
         kwargs["cpuModel"] = cpuModel
     if cpuCoreNum != "all":
@@ -229,9 +264,7 @@ def filter_result(request):
     device_list = Device.objects.filter(**kwargs)
     return render(request,"catalog/device_list_plt.html",{'device_list': device_list})
 
-@login_required
-def device_status(request,pk):
-    genres = Genre.objects.all()
+def refresh_genre_only(genres):
     for genre in genres:
         device_list = Device.objects.filter(genre__id=genre.id)
         ver = set()
@@ -324,6 +357,12 @@ def device_status(request,pk):
                 genre.up = UniqueParameter.create(ver,cpu,gpu,res)
                 genre.up.save()
             genre.save()
+
+
+@login_required
+def device_status(request):
+    genres = Genre.objects.all()
+    refresh_genre_only(genres)
     return render(request,"catalog/refresh.html",{"genres":genres})
 
 @login_required
@@ -347,7 +386,7 @@ def borrow_device(request,pk):
     if backdate:
         backdate_compare = datetime.strptime(backdate, "%Y-%m-%d")
         if currenttime > backdate_compare:
-            return render(request,"catalog/borrow_result.html",{'result': result,"addr":device.get_absolute_url(),"reason":"归还时间错误，请检查"})
+            return render(request,"catalog/borrow_result.html",{'result': result,"addr":device.get_absolute_url(),"reason":"归还时间错误，请检查!"})
     if device.status == "可用":
         if act == "借用":
             device.borrower =borrower
@@ -366,6 +405,9 @@ def borrow_device(request,pk):
             lh.save()
             device.save()
             result = "SUCCEED"
+    #重新运算唯一值            
+    genres = Genre.objects.all()
+    refresh_genre_only(genres)
 
     return render(request,"catalog/borrow_result.html",{'result': result,"addr":device.get_absolute_url(),"backdate":backdate,"currenttime":currenttime})
 
