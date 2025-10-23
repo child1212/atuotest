@@ -3,7 +3,8 @@ import pyautogui
 import time
 
 time.sleep(1)
-for i in range(300):
+# for i in range(3000):
+while True:
     # pyautogui.click(1321,751)
     # time.sleep(0.8)
     # pyautogui.click(1563,765)
