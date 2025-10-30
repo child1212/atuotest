@@ -2,5 +2,5 @@ train: ./data/images/train  # 训练图像路径
 val: ./data/images/val      # 验证图像路径
 test: ./data/images/test    # 测试图像路径
 
-nc: 7                       # 类别数量（根据你的数据集）
-names: ['closeButton','backButton','guideButton','skipButton','mission','useButton','login']           # 类别名称列表
+nc: 15                       # 类别数量（根据你的数据集）
+names: ['closeButton','backButton','guideButton','skipButton','mission','useButton','login','okButton','nextButton','createButton','keep','guideSwipe','skill','activity','stop']           # 类别名称列表
