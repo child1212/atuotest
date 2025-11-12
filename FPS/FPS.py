@@ -58,7 +58,6 @@ class check_FPS():
         png_data = adb_device.shell("screencap -p", encoding=None)
         pathlib.Path("lowFPS{num}.png".format(num=num)).write_bytes(png_data)
 
-
     def main(self):
         start_time = int(time.time())
         device_FPS = {}

@@ -1,31 +1,110 @@
+import adbutils
+import time
+import subprocess
 #%%
-import torch
-import cv2
-import matplotlib.pyplot as plt
-from pathlib import Path
+import uiautomator2 as u2
 
-# 加载训练好的 YOLOv5 模型（可以是yolov5s，yolov5m等）
-model = torch.hub.load('D:/gitcode/dev/atuotest/yolov5-master', 'custom', path='D:/gitcode/dev/atuotest/yolov5-master/runs/train/exp/weights/first.pt', source='local')
+# 连接 Android 设备
+d = u2.connect()
+print(d.info)
+# # 截图并保存到指定路径
+# screenshot_path = "/sdcard/screenshot.png"
+# d.screenshot(screenshot_path)
 
-# 使用OpenCV读取图像
-image = cv2.imread('D:/gitcode/dev/atuotest/yolov5-master/data/images/train/img306.jpg')
+# # 将截图文件下载到本地
+# d.pull(screenshot_path, "local_screenshot.png")
 
-# 转换BGR图像为RGB
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# 显示图像
-plt.imshow(image)
-plt.show()
+#%%
+import adbutils
+import re
 
-# 对图像进行推理
-results = model(image_rgb)
+adb = adbutils.AdbClient(host="127.0.0.1",port=5037)
 
-results.show()  # 可视化推理结果
 
-predictions = results.xywh[0].cpu().numpy()
-#逐个获取识别信息
-for pred in predictions:
-    x_center, y_center, width, height, confidence, class_id = pred
-    # print(f"Class ID: {class_id}, Confidence: {confidence}")
-    # print(f"Bounding Box: x_center={x_center}, y_center={y_center}, width={width}, height={height}")
+device = adb.device()
+
+text = device.shell('dumpsys SurfaceFlinger')
+# a = re.search(r'TOTAL PSS: +([0-9]+) ',text)
+# a = re.search(r'refresh-rate +: +([0-9]+)\.',text)
+
+print(text)
+# print(a.group(1))
+#%%
+
+
+
+print(time.ctime())
+for i in range(10):
+    # img = device.screenshot()
+    # device.screenshot().save("D:/screenshot/skip{x}{y}.jpg".format(x=i,y=1))
+    # subprocess.run("adb shell screencap -p /sdcard/screenshot.png")
+    # subprocess.run("adb pull /sdcard/screenshot.png D:/screenshot/skip{x}{y}.jpg".format(x=i,y=1))
+    # screenshot_path = "D:/screenshot/skip{x}{y}.jpg".format(x=i,y=1)
+    d.screenshot()
+
+    # d.pull(screenshot_path, "local_screenshot.jpg")
+
+    # 将截图文件下载到本地
+    # d.pull(screenshot_path, "D:/screenshot/skip{x}{y}.jpg".format(x=i,y=1))
+
+
+
+print(time.ctime())
+
+
+
+# import subprocess
+# import cv2
+# import numpy as np
+
+# # 启动 scrcpy
+# scrcpy_cmd = ["scrcpy"]
+# subprocess.Popen(scrcpy_cmd)
+
+# # 创建视频捕捉对象，使用 OpenCV 来捕获屏幕
+# cap = cv2.VideoCapture("video=Screen Capture")  # Windows 环境
+
+# while True:
+#     ret, frame = cap.read()
+#     if not ret:
+#         print("no screen")
+#         break
+    
+#     # 处理图像，进行显示或保存
+#     cv2.imshow("Screen Capture", frame)
+    
+#     # 按 'q' 键退出
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+
+# cap.release()
+# cv2.destroyAllWindows()
+
+
+
+# import cv2
+# import pyautogui
+
+# stream = cv2.VideoCapture('http://localhost:8888/stream.ffm')
+
+# while True:
+#     ret, frame = stream.read()
+#     if not ret:
+#         break
+
+#     # 在这里进行进一步的处理
+#     # ...
+
+#     # 显示处理后的帧
+#     cv2.imshow('Video Stream', frame)
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+
+# stream.release()
+# cv2.destroyAllWindows()
+#%%
+import re
+text = '130 com.wanmei.zhuxian.laohu      3597 u0_a319      com.wanmei.zhuxian.laohu'
+a = re.search(r'[0-9]+\.?[0-9]?',text)
 # %%
