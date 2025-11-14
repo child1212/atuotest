@@ -12,7 +12,7 @@ device = adb.device()
 img = device.screenshot()
 
 
-model = torch.hub.load('D:/gitcode/dev/atuotest/yolov5-master', 'custom', path='D:/gitcode/dev/atuotest/yolov5-master/runs/train/zx/weights/best.pt', source='local')
+model = torch.hub.load('D:/gitcode/dev/atuotest/yolov5-master', 'custom', path='D:/gitcode/dev/atuotest/yolov5-master/runs/train/exp/weights/best.pt', source='local')
 
 # image = cv2.imread('D:/gitcode/dev/atuotest/yolov5-master/data/images/train/img306.jpg')
 
