@@ -107,4 +107,32 @@ print(time.ctime())
 import re
 text = '130 com.wanmei.zhuxian.laohu      3597 u0_a319      com.wanmei.zhuxian.laohu'
 a = re.search(r'[0-9]+\.?[0-9]?',text)
+
+# %%
+import json
+
+with open('D:\\gitcode\\dev\\atuotest\\ai_test\\record.json','r') as f:
+    data = json.load(f)
+
+for line in data:
+    if line['action']['type'] not in ['tap','up','left','right']:
+        print(line)
+    if line['action']['button'] not in ['blank','start','mission','direction','conversation','guide','jump','attack','sumbit','cancel','close','action','chiose']:
+        print(line)
+#%%
+import os
+import json
+
+folder_path = "D:\\P5X_train"  # 替换为你的文件夹路径
+file_names = []
+
+for item_name in os.listdir(folder_path):
+    item_path = os.path.join(folder_path, item_name)
+    if os.path.isfile(item_path) and 'jpg' in item_name:
+        file_names.append(item_name)
+file_names.sort(reverse=True)
+print(file_names)
+with open("D:\\gitcode\\dev\\atuotest\\ai_test\\img_list.txt","w") as f:
+    json.dump(file_names,f)
+
 # %%

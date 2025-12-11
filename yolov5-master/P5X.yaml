@@ -1,0 +1,6 @@
+train: ./dataset/p5x/images/train  # 训练图像路径
+val: ./dataset/p5x/images/val      # 验证图像路径
+test: ./dataset/p5x/images/test    # 测试图像路径
+
+nc: 12                       # 类别数量（根据你的数据集）
+names: ['start','mission','direction','conversation','guide','jump','attack','sumbit','cancel','close','action','chiose']           # 类别名称列表
